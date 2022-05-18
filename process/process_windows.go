@@ -92,7 +92,7 @@ func (c *processCollector) processCollect(ch chan<- prometheus.Metric) {
 		c.reportError(ch, nil, err)
 		return
 	}
-	ch <- prometheusMustNewConstMetric(c.startTime, prometheus.GaugeValue, float64(startTime.Nanoseconds()/1e9))
+	ch <- prometheus.MustNewConstMetric(c.startTime, prometheus.GaugeValue, float64(startTime.Nanoseconds()/1e9))
 	ch <- prometheus.MustNewConstMetric(c.cpuTotal, prometheus.CounterValue, fileTimeToSeconds(kernelTime)+fileTimeToSeconds(userTime))
 
 	mem, err := getProcessMemoryInfo(h)
