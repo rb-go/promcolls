@@ -57,7 +57,7 @@ import (
 // sample values.
 //
 // Anything that does not fit into the scheme above is silently ignored.
-func NewExpvarCollector(exports map[string]*prometheus.Desc) prometheus.Collector {
+func NewCollector(exports map[string]*prometheus.Desc) prometheus.Collector {
 	// return &expvarCollector{
 	// 	exports: exports,
 	// }

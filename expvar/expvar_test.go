@@ -11,7 +11,7 @@ import (
 )
 
 func ExampleNewExpvarCollector() {
-	expvarCollector := NewExpvarCollector(map[string]*prometheus.Desc{
+	expvarCollector := NewCollector(map[string]*prometheus.Desc{
 		"memstats": prometheus.NewDesc(
 			"expvar_memstats",
 			"All numeric memstats as one metric family. Not a good role-model, actually... ;-)",

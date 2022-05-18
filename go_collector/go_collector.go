@@ -77,7 +77,7 @@ func WithGoCollections(flags GoCollectionOption) goOption {
 
 // NewGoCollector returns a collector that exports metrics about the current Go
 // process using debug.GCStats using runtime/metrics.
-func NewGoCollector(opts ...goOption) prometheus.Collector {
+func NewCollector(opts ...goOption) prometheus.Collector {
 	//nolint:staticcheck // Ignore SA1019 until v2.
 	promPkgOpts := make([]func(o *prometheus.GoCollectorOptions), len(opts))
 	for i, opt := range opts {

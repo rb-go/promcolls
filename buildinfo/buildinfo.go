@@ -37,7 +37,7 @@ import (
 // This collector uses only the build information for the main module. See
 // https://github.com/povilasv/prommod for an example of a collector for the
 // module dependencies.
-func NewBuildInfoCollector() prometheus.Collector {
+func NewCollector() prometheus.Collector {
 	path, version, sum := "unknown", "unknown", "unknown"
 	if bi, ok := debug.ReadBuildInfo(); ok {
 		path = bi.Main.Path

@@ -66,7 +66,7 @@ type ProcessCollectorOpts struct {
 // The collector only works on operating systems with a Linux-style proc
 // filesystem and on Microsoft Windows. On other operating systems, it will not
 // collect any metrics.
-func NewProcessCollector(opts ProcessCollectorOpts) prometheus.Collector {
+func NewCollector(opts ProcessCollectorOpts) prometheus.Collector {
 	ns := ""
 	if len(opts.Namespace) > 0 {
 		ns = opts.Namespace + "_"

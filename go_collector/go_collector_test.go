@@ -22,7 +22,7 @@ import (
 
 func TestGoCollectorMarshalling(t *testing.T) {
 	reg := prometheus.NewRegistry()
-	reg.MustRegister(NewGoCollector(WithGoCollections(GoRuntimeMemStatsCollection | GoRuntimeMetricsCollection)))
+	reg.MustRegister(NewCollector(WithGoCollections(GoRuntimeMemStatsCollection | GoRuntimeMetricsCollection)))
 	result, err := reg.Gather()
 	if err != nil {
 		t.Fatal(err)

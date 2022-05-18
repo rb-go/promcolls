@@ -24,13 +24,13 @@ func TestDBStatsCollector(t *testing.T) {
 	reg := prometheus.NewRegistry()
 	{
 		db := new(sql.DB)
-		if err := reg.Register(NewDBStatsCollector(db, "db_A")); err != nil {
+		if err := reg.Register(NewCollector(db, "db_A")); err != nil {
 			t.Fatal(err)
 		}
 	}
 	{
 		db := new(sql.DB)
-		if err := reg.Register(NewDBStatsCollector(db, "db_B")); err != nil {
+		if err := reg.Register(NewCollector(db, "db_B")); err != nil {
 			t.Fatal(err)
 		}
 	}
