@@ -1,0 +1,111 @@
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  # push: 
+  #   branches: 
+  #   — master 
+  #   — staging
+  #   — develop 
+  # pull_request: 
+  #   branches: 
+  #   — master 
+  #   — staging 
+  #   — develop
+
+jobs:
+
+  test:
+    strategy:
+      matrix:
+        go-version: [1.17.x, 1.18.x]
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/setup-go@v3
+      with:
+        go-version: ${{ matrix.go-version }}
+    - uses: actions/checkout@v3
+    - run: go test ./...
+
+
+  test-cache:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/setup-go@v3
+      with:
+        go-version: 1.18.x
+    - uses: actions/checkout@v3
+    - uses: actions/cache@v2
+      with:
+        # In order:
+        # * Module download cache
+        # * Build cache (Linux)
+        # * Build cache (Mac)
+        # * Build cache (Windows)
+        path: |
+          ~/go/pkg/mod
+          ~/.cache/go-build
+          ~/Library/Caches/go-build
+          ~\AppData\Local\go-build
+        key: ${{ runner.os }}-go-${{ matrix.go-version }}-${{ hashFiles('**/go.sum') }}
+        restore-keys: |
+          ${{ runner.os }}-go-${{ matrix.go-version }}-
+    - run: go test ./...
+
+
+  lint:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.17
+
+    - name: Verify dependencies
+      run: go mod verify
+
+    - name: Build
+      run: go build -v ./...
+
+    - name: Run go vet
+      run: go vet ./...
+
+    - name: Install staticcheck
+      run: go install honnef.co/go/tools/cmd/staticcheck@latest
+
+    - name: Run staticcheck
+      run: staticcheck ./...
+
+    - name: Install golint
+      run: go install golang.org/x/lint/golint@latest
+
+    - name: Run golint
+      run: golint ./...
+
+    - name: Run tests
+      run: go test -race -vet=off ./...
+
+
+  # # The "deploy" workflow
+  # deploy:
+  #   # The type of runner that the job will run on
+  #   runs-on: ubuntu-latest
+  #   needs: [build] # Only run this workflow when "build" workflow succeeds
+  #   if: ${{ github.ref == 'refs/heads/master' && github.event_name == 'push' }} # Only run this workflow if it is master branch on push event
+  #   steps:
+  #   - uses: actions/checkout@v2
+
+  #   # Deploy to Docker registry
+  #   - name: Deploy to Docker registry
+  #     uses: docker/build-push-action@v1
+  #     with:
+  #       username: ${{ secrets.DOCKER_USERNAME }}
+  #       password: ${{ secrets.DOCKER_PASSWORD }}
+  #       repository: wilsontanwm/gosimple
+  #       tag_with_ref: true
