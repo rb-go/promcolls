@@ -44,14 +44,13 @@ func NewBuildInfoCollector() prometheus.Collector {
 		version = bi.Main.Version
 		sum = bi.Main.Sum
 	}
-	c := &promcolls.NewSelfCollector(
+	return promcolls.NewSelfCollector(
 		prometheus.MustNewConstMetric(
 			prometheus.NewDesc(
 				"go_build_info",
 				"Build information about the main Go module.",
 				nil, prometheus.Labels{"path": path, "version": version, "checksum": sum},
 			),
-			prometheus.GaugeValue, 1)
+			prometheus.GaugeValue, 1),
 	)
-	return c
 }
