@@ -17,7 +17,7 @@ import (
 	"runtime/debug"
 
 	"github.com/prometheus/client_golang/prometheus"
-	"github.com/riftbit/promcolls"
+	"github.com/rb-go/promcolls"
 )
 
 // NewBuildInfoCollector returns a collector collecting a single metric

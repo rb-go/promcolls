@@ -1,4 +1,4 @@
-module github.com/riftbit/promcolls
+module github.com/rb-go/promcolls
 
 go 1.17
 
